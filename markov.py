@@ -28,31 +28,52 @@ def make_chains(text_string):
         >>> make_chains("hi there mary hi there juanita")
         {('hi', 'there'): ['mary', 'juanita'], ('there', 'mary'): ['hi'], ('mary', 'hi': ['there']}
     """
+    # split the inputted text_string at the spaces and lines
     text_string = text_string.split()
+    #create an empty dictionary called chains
     chains = {}
+    # for each index in the range of text_string up to the 3nd to last character
     for index in range(len(text_string) - 2):
+        # create a key that is a tuple made up of text_string
+        # at current index and text_string at next index
         two_word_key = text_string[index], text_string[index + 1]
+        # create a value to later assign to two_word_key that is
+        # equal to the text_string at the next next index
         new_value = text_string[index + 2]
-        if chains.get(two_word_key) != None:
-            existing_value_list = chains.get(two_word_key)
-            existing_value_list.append(new_value)
-            chains[two_word_key] = existing_value_list
-        elif chains.get(two_word_key) == None:
+        # if already exists a key of current two_word_key value in
+        # dictionary, perform following steps:
+        if chains.get(two_word_key):
+            # append new_value to existing value list for this key
+            chains[two_word_key].append(new_value)
+        # if there does not already exist a key of current two_word_key value in
+        # dictionary, assign key:value to two_word_key(tuple):third word(value)
+        else:
             chains[two_word_key] = [new_value]
-    print chains
 
-
-    # return chains
-
+    # printing instead of returning for now, for testing
+    # print chains
+    return chains
 
 def make_text(chains):
     """Takes dictionary of markov chains; returns random text."""
-
-    text = ""
-
+    import random
+    
+    # text = ""
+    # list_of_words = []
     # your code goes here
+    # while True:
+    random_key = random.choice(chains.keys())
+    random_key_values = chains[random_key]
+    third_word = random.choice(random_key_values)
+    temp_list = [random_key[0], random_key[1], third_word]
+    # for item in temp_list
 
-    return text
+    # while True:
+
+
+    text = " ".join(temp_list)
+    print text
+    # return text
 
 
 input_path = "green-eggs.txt"
@@ -64,6 +85,6 @@ input_text = open_and_read_file(input_path)
 chains = make_chains(input_text)
 
 # # Produce random text
-# random_text = make_text(chains)
+random_text = make_text(chains)
 
 # print random_text
